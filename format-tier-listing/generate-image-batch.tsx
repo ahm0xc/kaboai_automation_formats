@@ -166,7 +166,7 @@ for (let stage = 0; stage <= products.length; stage += 1) {
               style={{
                 fontFamily: "Inter",
                 fontWeight: 600,
-                fontSize: 48,
+                fontSize: 52,
                 lineHeight: 1.2,
                 color: "#ffffff",
                 textAlign: "left",
