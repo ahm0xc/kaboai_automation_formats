@@ -1,13 +1,15 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
-import { readFile, writeFile } from "node:fs/promises";
-import { dirname, extname, resolve } from "node:path";
+import { mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const WIDTH = 1080;
 const HEIGHT = 1920;
 
 const dir = dirname(fileURLToPath(import.meta.url));
+const outDir = await mkdtemp(join(tmpdir(), "format-tier-listing-"));
 
 const args = process.argv.slice(2);
 const title = args[0] ?? "Untitled";
@@ -170,7 +172,9 @@ for (let stage = 0; stage <= products.length; stage += 1) {
   });
 
   const png = resvg.render().asPng();
-  const outPath = resolve(dir, `output-${stage}.png`);
+  const outPath = join(outDir, `output-${stage}.png`);
   await writeFile(outPath, png);
-  console.log(`written ${outPath} (${png.byteLength} bytes)`);
+  console.log(`written ${outPath}`);
 }
+
+console.log(`output directory: ${outDir}`);
