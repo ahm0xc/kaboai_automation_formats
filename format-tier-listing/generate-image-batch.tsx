@@ -55,9 +55,10 @@ async function loadEmojiImage(segment: string) {
   return `data:image/png;base64,${buffer.toString("base64")}`;
 }
 
-const [background, interRegular, interBold] = await Promise.all([
+const [background, interRegular, interSemiBold, interBold] = await Promise.all([
   readFile(resolve(dir, "background.png")),
   readFile(resolve(dir, "..", "fonts", "Inter-Regular.ttf")),
+  readFile(resolve(dir, "..", "fonts", "Inter-SemiBold.ttf")),
   readFile(resolve(dir, "..", "fonts", "Inter-Bold.ttf")),
 ]);
 
@@ -86,6 +87,12 @@ const fonts = [
     name: "Inter",
     data: interRegular,
     weight: 400 as const,
+    style: "normal" as const,
+  },
+  {
+    name: "Inter",
+    data: interSemiBold,
+    weight: 600 as const,
     style: "normal" as const,
   },
   {
@@ -158,7 +165,7 @@ for (let stage = 0; stage <= products.length; stage += 1) {
               key={index}
               style={{
                 fontFamily: "Inter",
-                fontWeight: 400,
+                fontWeight: 600,
                 fontSize: 48,
                 lineHeight: 1.2,
                 color: "#ffffff",
