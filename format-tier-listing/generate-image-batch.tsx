@@ -28,6 +28,33 @@ const imageMimeTypes: Record<string, string> = {
   ".webp": "image/webp",
 };
 
+const TWEMOJI_ASSETS =
+  "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72";
+
+function emojiToCodePoint(emoji: string) {
+  const codePoints: number[] = [];
+
+  for (const char of emoji) {
+    codePoints.push(char.codePointAt(0)!);
+  }
+
+  return codePoints.map((codePoint) => codePoint.toString(16)).join("-");
+}
+
+async function loadEmojiImage(segment: string) {
+  const response = await fetch(
+    `${TWEMOJI_ASSETS}/${emojiToCodePoint(segment)}.png`,
+  );
+
+  if (!response.ok) {
+    return undefined;
+  }
+
+  const buffer = Buffer.from(await response.arrayBuffer());
+
+  return `data:image/png;base64,${buffer.toString("base64")}`;
+}
+
 const [background, interRegular, interBold] = await Promise.all([
   readFile(resolve(dir, "background.png")),
   readFile(resolve(dir, "..", "fonts", "Inter-Regular.ttf")),
@@ -156,11 +183,37 @@ for (let stage = 0; stage <= products.length; stage += 1) {
           />
         )}
       </div>
+      {stage >= products.length - 2 && (
+        <div
+          style={{
+            position: "relative",
+            marginTop: 40,
+            fontFamily: "Inter",
+            fontWeight: 700,
+            fontSize: 44,
+            color: "#ffffff",
+            textAlign: "center",
+          }}
+        >
+          Read Caption 👇
+        </div>
+      )}
     </div>,
     {
       width: WIDTH,
       height: HEIGHT,
       fonts,
+      loadAdditionalAsset: async (code, segment) => {
+        if (code === "emoji") {
+          const image = await loadEmojiImage(segment);
+
+          if (image) {
+            return image;
+          }
+        }
+
+        return [];
+      },
     },
   );
 
