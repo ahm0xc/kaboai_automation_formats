@@ -151,6 +151,7 @@ for (let stage = 0; stage <= products.length; stage += 1) {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: 24,
           marginTop: 60,
         }}
       >
