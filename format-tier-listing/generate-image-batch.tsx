@@ -131,7 +131,7 @@ for (let stage = 0; stage <= products.length; stage += 1) {
           textAlign: "center",
           padding: "48px 0",
           borderRadius: 32,
-          marginTop: 40,
+          marginTop: 160,
         }}
       >
         {title}
