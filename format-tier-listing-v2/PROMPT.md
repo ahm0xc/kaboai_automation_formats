@@ -29,4 +29,4 @@ I want you to create a video and to create that video you will need to follow th
 
 ---
 
-and lastly after creating the video send it to telegram. send the caption to telegram too.
+and lastly after creating the video send it to telegram. send the caption to telegram too. and also after sending it i want you to post it in the instagram account: `livesaverguy` via postiz cli.
